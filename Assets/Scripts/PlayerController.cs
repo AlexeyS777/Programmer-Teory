@@ -1,14 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Camera cam;
     [SerializeField] private float playerSpeed = 5f;
-    [SerializeField] private float rotationSpeed = 50f;
-    [SerializeField] private float minimumVert = 60f;
-    [SerializeField] private float maximumVert = -70f;
+    [SerializeField] private float rotationSpeed = 5f;
+    [SerializeField] private float minimumVert = -30f;
+    [SerializeField] private float maximumVert = -40f;
     
     private Rigidbody body;
     private CharacterController player;
@@ -36,13 +38,25 @@ public class PlayerController : MonoBehaviour
         // ABSTRACTION player move 
         if (horInput != 0 || vertInput != 0) PlayerMove();
         if (rotationY != 0 || rotationX != 0) PlayerRotation();
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            SceneManager.LoadScene(1);
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
     }
 
     private void PlayerMove()
     {        
         Vector3 move = new Vector3(horInput, 0, vertInput);
         move = Vector3.ClampMagnitude(move,playerSpeed);
-        body.AddRelativeForce(move * playerSpeed, ForceMode.Impulse);
+        move *= playerSpeed;
+
+        if(Mathf.FloorToInt(body.velocity.magnitude /3.6f) <= 1)
+        {
+            body.AddRelativeForce(move, ForceMode.Impulse);
+        }
     }
 
     private void PlayerRotation()
@@ -51,4 +65,6 @@ public class PlayerController : MonoBehaviour
         transform.localEulerAngles = Vector3.up * rotationY;
         cam.transform.localEulerAngles = Vector3.right * rotationX;
     }
+
+
 }
