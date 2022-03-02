@@ -9,21 +9,29 @@ using UnityEditor;
 
 public class MainMenu : MonoBehaviour
 {
+    public AudioClip mainMenuMusic;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        StartLevel();
     }
 
-    // Update is called once per frame
-    void Update()
+    public virtual void StartLevel()
     {
-        
-    }
+        if (Cursor.visible == false)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
 
-    public void StartGame()
+        GameManager.gameManager.PlayFhoneMusic(mainMenuMusic);
+    }
+    
+    public void StartNewGame(int value)
     {
-        SceneManager.LoadScene(2);
+        GameManager.gameManager.IndexOfScene = value;
+        SceneManager.LoadScene(0);
     }
 
     public void ExitGame()

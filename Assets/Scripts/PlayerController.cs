@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
@@ -38,13 +36,6 @@ public class PlayerController : MonoBehaviour
         // ABSTRACTION player move 
         if (horInput != 0 || vertInput != 0) PlayerMove();
         if (rotationY != 0 || rotationX != 0) PlayerRotation();
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            SceneManager.LoadScene(1);
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
     }
 
     private void PlayerMove()
